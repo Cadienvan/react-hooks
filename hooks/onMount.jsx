@@ -1,5 +1,5 @@
 import { useEffect } from "react";
 
-export default function onMount(fn) {
+export function onMount(fn) {
   useEffect(fn, []);
 }
