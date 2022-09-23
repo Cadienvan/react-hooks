@@ -1,1 +1,0 @@
-A simple collection of React Hooks made for personal use, just for testing and experimenting
