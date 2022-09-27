@@ -33,8 +33,8 @@ A hook that creates a reactive variable, preventing the stale state problem by u
 
 #### What is the stale state problem?
 The stale state problem is when you have a useState and update the corresponding state using the set function. Until React recompiles the component, your state will be stale, meaning that it will not be updated.  
-Here's a nice blog post on Free Code Camp about React State internals:
-[Read It!](https://www.freecodecamp.org/news/what-every-react-developer-should-know-about-state/)
+Here's a nice blog post on Free Code Camp about React State internals:  
+[Read It!](https://www.freecodecamp.org/news/what-every-react-developer-should-know-about-state/)  
 Example:
 ```js
 const [count, setCount] = useState(0)
