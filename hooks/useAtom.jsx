@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 
-export default function useAtom(initialValue) {
+export default function useAtom(initialValue, options = {triggerWatchOnFirstRender: false}) {
   // check if the value is a primitive
   if (typeof initialValue === "function") {
     throw new Error("useAtom only accepts primitives and objects");
@@ -20,6 +20,8 @@ export default function useAtom(initialValue) {
       value: initialValue,
       watch(cb) {
         watchCb = cb;
+        if(options.triggerWatchOnFirstRender)
+            cb(internalValue, previosValue);
       },
     },
     {

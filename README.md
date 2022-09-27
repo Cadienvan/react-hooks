@@ -89,3 +89,15 @@ atomTest.watch((newValue, oldValue) => {
 });
 atomTest.value++;
 ```
+
+### How can I trigger my watch callback at first component mount?
+You can pass a second parameter to the useAtom hook, which will be the atom configuration.  
+You can use the `triggerOnMount` property to trigger the watch callback at first component mount:
+```js
+const atomTest = useAtom(0, {
+  triggerWatchOnMount: true,
+});
+atomTest.watch((newValue, oldValue) => {
+  console.log(`New value: ${newValue}, old value: ${oldValue}`);
+});
+```
