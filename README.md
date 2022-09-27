@@ -29,10 +29,12 @@ function MyComponent() {
 ```
 
 ## useAtom
-A hook that creates a reactive variable, preventing the stale state problem by using a mix of React's `useState` and `Reflect`.
+A hook that creates a reactive variable, preventing the stale state problem by using a mix of React's `useState` and `Proxy`.
 
-### What is the stale state problem?
-The stale state problem is when you have a useState and update the corresponding state using the set function. Until React recompiles the component, your state will be stale, meaning that it will not be updated.
+#### What is the stale state problem?
+The stale state problem is when you have a useState and update the corresponding state using the set function. Until React recompiles the component, your state will be stale, meaning that it will not be updated.  
+Here's a nice blog post on Free Code Camp about React State internals:
+[Read It!](https://www.freecodecamp.org/news/what-every-react-developer-should-know-about-state/)
 Example:
 ```js
 const [count, setCount] = useState(0)
@@ -55,7 +57,7 @@ setTimeout(() => {
 ```
 The above code will work as expected, because the state is not stale. The `useAtom` hook will update the state immediately, and the `value` property will be updated as well.  
 
-### What can I put in an atom?
+#### What can I put in an atom?
 Your only constraint is you will have to call the `.value` property, as the hook needs it in order to work.  
 You can use the `useAtom` hook both with primitives, arrays and objects:
 ```js
@@ -74,13 +76,13 @@ You can use the `useAtom` hook both with primitives, arrays and objects:
   console.log(atomArr[0]); // 10, as expected
 ```
 
-### What is the difference between `useAtom` and `useState`?
+#### What is the difference between `useAtom` and `useState`?
 The difference is that `useAtom` will update the state immediately thanks to its Proxy-based implementation, while `useState` will not update the state until React recompiles the component.
 
-### What is the difference between `useAtom` and `useRef`?
+#### What is the difference between `useAtom` and `useRef`?
 The difference is that `useAtom` will recompile the component on change, while `useRef` will not.
 
-### How can I watch for changes?
+#### How can I watch for changes?
 You can use the `watch` property to watch for changes:
 ```js
 const atomTest = useAtom(0);
@@ -90,7 +92,7 @@ atomTest.watch((newValue, oldValue) => {
 atomTest.value++;
 ```
 
-### How can I trigger my watch callback at first component mount?
+#### How can I trigger my watch callback at first component mount?
 You can pass a second parameter to the useAtom hook, which will be the atom configuration.  
 You can use the `triggerOnMount` property to trigger the watch callback at first component mount:
 ```js
