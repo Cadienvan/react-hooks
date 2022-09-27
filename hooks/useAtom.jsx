@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 export default function useAtom(initialValue) {
   // check if the value is a primitive
@@ -13,8 +13,15 @@ export default function useAtom(initialValue) {
   }
   const [state, setState] = useState(initialValue);
   var internalValue = state;
+  var previosValue = state;
+  var watchCb = null;
   const atom = new Proxy(
-    { value: initialValue },
+    {
+      value: initialValue,
+      watch(cb) {
+        watchCb = cb;
+      },
+    },
     {
       get(target, prop, receiver) {
         if (prop == "value") {
@@ -23,14 +30,18 @@ export default function useAtom(initialValue) {
         return Reflect.get(target, prop, receiver);
       },
       set(target, prop, value, receiver) {
-        if (prop == "value") {
+        if (prop == "value" && internalValue !== value) {
+          previosValue = internalValue;
           internalValue = value;
           setState(value);
+          if (watchCb) {
+            watchCb(value, previosValue);
+          }
           return true;
         }
         return Reflect.set(target, prop, value, receiver);
       },
     }
   );
-  return atom;
+  return useCallback(() => atom, [initialValue])();
 }
