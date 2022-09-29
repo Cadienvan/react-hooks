@@ -82,24 +82,25 @@ The difference is that `useAtom` will update the state immediately thanks to its
 #### What is the difference between `useAtom` and `useRef`?
 The difference is that `useAtom` will recompile the component on change, while `useRef` will not.
 
-#### How can I watch for changes?
-You can use the `watch` property to watch for changes:
+#### How can I subscribe for changes?
+You can use the `subscribe` property to subscribe for changes:
 ```js
 const atomTest = useAtom(0);
-atomTest.watch((newValue, oldValue) => {
+atomTest.subscribe((newValue, oldValue) => {
   console.log(`New value: ${newValue}, old value: ${oldValue}`);
 });
 atomTest.value++;
 ```
 
-#### How can I trigger my watch callback at first component mount?
+#### How can I trigger my subscribe callback at first component mount?
 You can pass a second parameter to the useAtom hook, which will be the atom configuration.  
-You can use the `triggerOnMount` property to trigger the watch callback at first component mount:
+You can use the `triggerOnMount` property to trigger the subscribe callback at first component mount.  
+This will be treated similar to a *Behaviour Subject* in Reactive Programming.
 ```js
 const atomTest = useAtom(0, {
-  triggerWatchOnMount: true,
+  triggerSubscribeOnMount: true,
 });
-atomTest.watch((newValue, oldValue) => {
+atomTest.subscribe((newValue, oldValue) => {
   console.log(`New value: ${newValue}, old value: ${oldValue}`);
 });
 ```

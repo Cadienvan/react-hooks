@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 
 export default function useAtom(
   initialValue,
-  options = { triggerWatchOnFirstRender: false }
+  options = { triggerSubscribeOnFirstRender: false }
 ) {
   // check if the value is a primitive
   if (typeof initialValue === "function") {
@@ -23,7 +23,10 @@ export default function useAtom(
       value: initialValue,
       subscribe(cb) {
         observers.push(cb);
-        if (options.triggerWatchOnFirstRender) cb(internalValue, previosValue);
+        if (options.triggerSubscribeOnFirstRender) cb(internalValue, previosValue);
+      },
+      unsubscribe(cb) {
+        observers = observers.filter((observer) => observer !== cb);
       },
     },
     {
