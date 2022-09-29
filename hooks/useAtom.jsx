@@ -1,6 +1,9 @@
 import { useState, useCallback } from "react";
 
-export default function useAtom(initialValue, options = {triggerWatchOnFirstRender: false}) {
+export default function useAtom(
+  initialValue,
+  options = { triggerWatchOnFirstRender: false }
+) {
   // check if the value is a primitive
   if (typeof initialValue === "function") {
     throw new Error("useAtom only accepts primitives and objects");
@@ -14,14 +17,13 @@ export default function useAtom(initialValue, options = {triggerWatchOnFirstRend
   const [state, setState] = useState(initialValue);
   var internalValue = state;
   var previosValue = state;
-  var watchCb = null;
+  var observers = [];
   const atom = new Proxy(
     {
       value: initialValue,
-      watch(cb) {
-        watchCb = cb;
-        if(options.triggerWatchOnFirstRender)
-            cb(internalValue, previosValue);
+      subscribe(cb) {
+        observers.push(cb);
+        if (options.triggerWatchOnFirstRender) cb(internalValue, previosValue);
       },
     },
     {
@@ -36,8 +38,8 @@ export default function useAtom(initialValue, options = {triggerWatchOnFirstRend
           previosValue = internalValue;
           internalValue = value;
           setState(value);
-          if (watchCb) {
-            watchCb(value, previosValue);
+          if (observers.length > 0) {
+            observers.forEach((cb) => cb(value, previosValue));
           }
           return true;
         }
