@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 
-export default function useAtom(
+export function useAtom(
   initialValue,
   options = { triggerSubscribeOnFirstRender: false }
 ) {
