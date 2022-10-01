@@ -1,5 +1,11 @@
 # What is this?
-A simple collection of React Hooks made for personal use, just for testing and experimenti
+A simple collection of React Hooks made for personal use, just for testing and experimenting.
+
+# How do I install it?
+You can install it by using the following command:
+```bash
+npm install @cadienvan/react-hooks
+```
 
 # Which hooks are available?
 ## onMount
