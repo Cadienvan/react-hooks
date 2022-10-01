@@ -14,41 +14,46 @@ export default function useAtom(
     }
     return initialValue;
   }
-  const [state, setState] = useState(initialValue);
-  var internalValue = state;
-  var previosValue = state;
-  var observers = [];
-  const atom = new Proxy(
-    {
-      value: initialValue,
-      subscribe(cb) {
-        observers.push(cb);
-        if (options.triggerSubscribeOnFirstRender) cb(internalValue, previosValue);
+
+  return useCallback(() => {
+    const [state, setState] = useState(initialValue);
+    var internalValue = state;
+    var previousValue = state;
+    var observers = [];
+    const atom = new Proxy(
+      {
+        value: initialValue,
+        state,
+        subscribe(cb) {
+          observers.push(useCallback(cb, []));
+          if (options.triggerSubscribeOnFirstRender)
+            cb(internalValue, previousValue);
+        },
+        unsubscribe(cb) {
+          observers = observers.filter((observer) => observer !== cb);
+        },
       },
-      unsubscribe(cb) {
-        observers = observers.filter((observer) => observer !== cb);
-      },
-    },
-    {
-      get(target, prop, receiver) {
-        if (prop == "value") {
-          return internalValue;
-        }
-        return Reflect.get(target, prop, receiver);
-      },
-      set(target, prop, value, receiver) {
-        if (prop == "value" && internalValue !== value) {
-          previosValue = internalValue;
-          internalValue = value;
-          setState(value);
-          if (observers.length > 0) {
-            observers.forEach((cb) => cb(value, previosValue));
+      {
+        get(target, prop, receiver) {
+          if (prop == "value") {
+            return internalValue;
           }
-          return true;
-        }
-        return Reflect.set(target, prop, value, receiver);
-      },
-    }
-  );
-  return useCallback(() => atom, [initialValue])();
+          return Reflect.get(target, prop, receiver);
+        },
+        set(target, prop, value, receiver) {
+          if (prop == "value" && internalValue !== value) {
+            previousValue = internalValue;
+            internalValue = value;
+            setState(value);
+            if (observers.length > 0) {
+              observers.forEach((cb) => cb(value, previousValue));
+            }
+            return true;
+          }
+          return Reflect.set(target, prop, value, receiver);
+        },
+      }
+    );
+    return atom;
+  }, [initialValue])();
 }
