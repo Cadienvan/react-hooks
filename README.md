@@ -87,7 +87,7 @@ The difference is that `useAtom` will update the state variable immediately than
 The difference is that `useAtom` will re-render the component on change, while `useRef` will not.
 
 ### How can I subscribe for changes?
-If you want to respect the Observer Pattern, you can use the `subscribe` property to subscribe and unsubscribe for changes:
+If you want to respect the Observer Pattern, you can use the `subscribe` method to subscribe and unsubscribe for changes:
 ```js
 const atomTest = useAtom(0);
 const atomObserver = (newValue, oldValue) => {
@@ -97,6 +97,10 @@ atomTest.subscribe(atomObserver);
 atomTest.value++;
 atomTest.unsubscribe(atomObserver);
 ```  
+You can also unsubscribe all observers by calling `unsubscribeAll`:
+```js
+atomTest.unsubscribeAll();
+```
 
 ### What if I want to keep using the `useEffect` hook?
 If you instead prefer a more standard approach, the hook exposes a `state` property which contains the React state value, allowing you to use the `useEffect` hook as usual.  

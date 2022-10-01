@@ -32,6 +32,9 @@ export default function useAtom(
         unsubscribe(cb) {
           observers = observers.filter((observer) => observer !== cb);
         },
+        unsubscribeAll() {
+          observers = [];
+        },
       },
       {
         get(target, prop, receiver) {
