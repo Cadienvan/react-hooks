@@ -25,7 +25,7 @@ export function useAtom(
         value: initialValue,
         state,
         subscribe(cb) {
-          observers.push(useCallback(cb, []));
+          observers.push(cb);
           if (options.triggerSubscribeOnFirstRender)
             cb(internalValue, previousValue);
         },
