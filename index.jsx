@@ -1,4 +1,4 @@
-import { onMount } from "./hooks/onMount";
-import { onUnmount } from "./hooks/onUnmount";
+import { useMount } from "./hooks/useMount";
+import { useUnmount } from "./hooks/useUnmount";
 import { useAtom } from "./hooks/useAtom";
-export { onMount, onUnmount, useAtom };
+export { useMount, useUnmount, useAtom };

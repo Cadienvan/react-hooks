@@ -8,28 +8,28 @@ npm install @cadienvan/react-hooks
 ```
 
 # Which hooks are available?
-## onMount
+## useMount
 A hook that runs a callback when the component is mounted.  
 It's a simple wrapper around `useEffect` that runs the callback only at component mount.
 Example:
 ```js
-import { onMount } from '@cadienvan/react-hooks'
+import { useMount } from '@cadienvan/react-hooks'
 function MyComponent() {
-  onMount(() => {
+  useMount(() => {
     console.log('Mounted!')
   })
   return <div>My Component</div>
 }
 ```
 
-## onUnmount
+## useUnmount
 A hook that runs a callback when the component is unmounted.  
 It's a simple wrapper around `useEffect` that runs the callback only at component dismount.
 Example:
 ```js
-import { onUnmount } from '@cadienvan/react-hooks'
+import { useUnmount } from '@cadienvan/react-hooks'
 function MyComponent() {
-  onUnmount(() => {
+  useUnmount(() => {
     console.log('Unmounted!')
   })
   return <div>My Component</div>

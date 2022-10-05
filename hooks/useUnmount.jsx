@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export function onUnmount(fn) {
+export function useUnmount(fn) {
   useEffect(() => {
     return () => fn;
   }, []);
